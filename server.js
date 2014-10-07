@@ -1,4 +1,5 @@
 var net = require('net');
+var mongoose require('mongoose');
 
 
 var server = net.createServer(function(conn) {
