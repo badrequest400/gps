@@ -3,12 +3,11 @@ var mongoose = require('mongoose');
 var logSchema = mongoose.Schema({
 
 	GID: Number,
-	time: Number,
+	timestamp: Number,
 	lat: Number,
-	lon: Number,
+	lng: Number,
 	speed: Number,
 	orientation: Number,
-	date: Number,		//needs to be changed to real Date
 	input: String,
 	output: String,
 	analogue: String,

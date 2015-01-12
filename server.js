@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 var models  = require('./models.js');
 var configDB = require('./config/database.js');
+var date = require('./date.js');
 
 
 
@@ -18,12 +19,11 @@ var server = net.createServer(function(conn) {
 			var newReport = new models.Log();
 
 			newReport.GID = list[1];
-			newReport.time = list[2];
+			newReport.timestamp = date.parseDate(list[10], list[2]);
 			newReport.lat = list[4];
 			newReport.lon = list[6];
 			newReport.speed = list[8];
 			newReport.orientation = list[9];
-			newReport.date = list[10];		// needs to be changed to real Date
 			newReport.input = list[14];
 			newReport.output = list[15];
 			newReport.analogue = list[16];
@@ -57,7 +57,7 @@ function mongooseConnect() {
 
 
 
-function parse(report, callback) { 
+function parse(report, callback) {
 
 	var commaSplit = report.split(",");
 	var slashSplit = [];
@@ -75,6 +75,6 @@ function parse(report, callback) {
 			split.push(commaSplit[i]);
 		};
 	};
-	
+
 	callback(split);
 };
