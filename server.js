@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var models  = require('./models.js');
 var configDB = require('./config/database.js');
 var date = require('./date.js');
+var parse = require('./parse.js');
 
 
 
@@ -12,16 +13,16 @@ var server = net.createServer(function(conn) {
 
 	conn.on('data', function(data) {
 
-		parse(data.toString(), function(list) {
+		parse.parse(data.toString(), function(list) {
 
 			console.log(list);
 
-			var newReport = new models.Log();
+			var newReport = new models.Report();
 
 			newReport.GID = list[1];
 			newReport.timestamp = date.parseDate(list[10], list[2]);
 			newReport.lat = list[4];
-			newReport.lon = list[6];
+			newReport.lng = list[6];
 			newReport.speed = list[8];
 			newReport.orientation = list[9];
 			newReport.input = list[14];
@@ -53,28 +54,4 @@ function mongooseConnect() {
 	mongoose.connect('mongodb://' + configDB.host + ':' + configDB.port + '/' + configDB.database, function(err) {
 		if (err) console.log(err);
 	});
-}
-
-
-
-function parse(report, callback) {
-
-	var commaSplit = report.split(",");
-	var slashSplit = [];
-	var split = [];
-
-	for (var i=0; i<commaSplit.length; i++) {
-		if (commaSplit[i].search('/') >= 0){
-			slashSplit = commaSplit[i].split('/');
-
-			for (var j=0; j<slashSplit.length; j++){
-				split.push(slashSplit[j]);
-			};
-
-		}else{
-			split.push(commaSplit[i]);
-		};
-	};
-
-	callback(split);
 };

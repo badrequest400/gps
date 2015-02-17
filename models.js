@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var logSchema = mongoose.Schema({
+var reportSchema = mongoose.Schema({
 
 	GID: Number,
 	timestamp: Number,
@@ -14,4 +14,4 @@ var logSchema = mongoose.Schema({
 	mystery: Number
 });
 
-module.exports.Log = mongoose.model('Log', logSchema);
+module.exports.Report = mongoose.model('Report', reportSchema);
